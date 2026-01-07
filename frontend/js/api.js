@@ -1,6 +1,10 @@
 class API {
     constructor() {
-        this.baseURL = 'http://localhost:5003/api';
+        // Automatically detect if running locally or in production
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        // TODO: REPLACE 'https://your-backend-app.onrender.com' with your actual Render Backend URL after deployment
+        this.baseURL = isLocal ? 'http://localhost:5003/api' : 'https://your-backend-app.onrender.com/api';
     }
 
     getToken() {

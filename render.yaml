@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: project-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        fromGroup: shared-secrets
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
