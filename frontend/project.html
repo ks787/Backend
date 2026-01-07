@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Board - Project Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/board.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <a href="dashboard.html" class="navbar-brand">Project Manager</a>
+            <span id="project-title" style="font-weight: 500;">Project Name</span>
+        </div>
+        <div class="navbar-user">
+            <button onclick="copyInviteLink()" style="width: auto; padding: 5px 10px; font-size: 12px;">Invite
+                Members</button>
+            <span id="user-name">User</span>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <div class="board-container">
+        <div class="board">
+            <div class="column" id="col-todo">
+                <div class="column-header">
+                    <span>TO DO</span>
+                    <button onclick="openAddTaskModal('To Do')"
+                        style="width: auto; padding: 2px 8px; font-size: 12px;">+</button>
+                </div>
+                <div class="task-list" id="list-todo" ondrop="drop(event)" ondragover="allowDrop(event)"
+                    data-status="To Do">
+                    <!-- Tasks -->
+                </div>
+            </div>
+
+            <div class="column" id="col-inprogress">
+                <div class="column-header">
+                    <span>IN PROGRESS</span>
+                    <button onclick="openAddTaskModal('In Progress')"
+                        style="width: auto; padding: 2px 8px; font-size: 12px;">+</button>
+                </div>
+                <div class="task-list" id="list-inprogress" ondrop="drop(event)" ondragover="allowDrop(event)"
+                    data-status="In Progress">
+                    <!-- Tasks -->
+                </div>
+            </div>
+
+            <div class="column" id="col-done">
+                <div class="column-header">
+                    <span>DONE</span>
+                    <button onclick="openAddTaskModal('Done')"
+                        style="width: auto; padding: 2px 8px; font-size: 12px;">+</button>
+                </div>
+                <div class="task-list" id="list-done" ondrop="drop(event)" ondragover="allowDrop(event)"
+                    data-status="Done">
+                    <!-- Tasks -->
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-sidebar">
+            <div class="chat-header">Team Chat</div>
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages -->
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Type a message..." style="flex: 1;">
+                <button onclick="sendMessage()" style="width: auto;">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div id="add-task-modal" class="modal">
+        <div class="modal-content">
+            <h3>Add New Task</h3>
+            <form id="add-task-form" style="margin-top: 20px;">
+                <input type="hidden" id="task-status">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="task-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="task-desc">
+                </div>
+                <div class="form-group">
+                    <label>Assigned To (Email)</label>
+                    <!-- Simplification: By email or select if we loaded members -->
+                    <select id="task-assignee"
+                        style="width: 100%; padding: 10px; border: 2px solid var(--border-color); border-radius: 3px; font-size: 14px; background-color: var(--card-bg); color: var(--text-color);">
+                        <option value="">Unassigned</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="task-date">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" onclick="document.getElementById('add-task-modal').style.display='none'"
+                        style="background: #ccc; color: black; width: auto;">Cancel</button>
+                    <button type="submit" style="width: auto;">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+
+</html>

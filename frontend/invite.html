@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joining Project...</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column;">
+    <h2>Joining Project...</h2>
+    <p id="status">Please wait...</p>
+    <a href="index.html" id="login-link" style="display:none; margin-top:20px;">Login to accept invite</a>
+
+    <script src="js/api.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (!token) {
+            document.getElementById('status').textContent = 'Invalid invite link.';
+        } else {
+            // Check auth
+            if (!api.getToken()) {
+                document.getElementById('status').textContent = 'You must be logged in to accept this invitation.';
+                document.getElementById('login-link').style.display = 'block';
+                // Store invite to redirect after login? 
+                // Simple version: User manually logs in then clicks link again.
+            } else {
+                joinProject();
+            }
+        }
+
+        async function joinProject() {
+            try {
+                const res = await api.post(`/projects/join/${token}`);
+                document.getElementById('status').textContent = 'Joined successfully! Redirecting...';
+                setTimeout(() => {
+                    window.location.href = `/project.html?id=${res.projectId}`;
+                }, 1500);
+            } catch (error) {
+                document.getElementById('status').textContent = 'Failed to join: ' + error.message;
+            }
+        }
+    </script>
+</body>
+
+</html>
