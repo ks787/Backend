@@ -4,7 +4,7 @@ class API {
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
         // TODO: REPLACE 'https://your-backend-app.onrender.com' with your actual Render Backend URL after deployment
-        this.baseURL = isLocal ? 'http://localhost:5003/api' : 'https://your-backend-app.onrender.com/api';
+        this.baseURL = isLocal ? 'http://localhost:5003/api' : 'https://backend-manager-z5rc.onrender.com/api';
     }
 
     getToken() {
